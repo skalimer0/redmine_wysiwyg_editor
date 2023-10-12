@@ -429,7 +429,7 @@ RedmineWysiwygEditor.prototype._initTinymce = function(setting) {
   var toolbar = (self._format === 'textile') ?
       'formatselect | bold italic underline strikethrough code forecolor backcolor removeformat | link image codesample wiki attachment | bullist numlist blockquote | alignleft aligncenter alignright | indent outdent | hr | table | undo redo | fullscreen' :
       self._htmlTagAllowed ?
-      'formatselect | bold italic underline strikethrough code removeformat | link image codesample wiki attachment | bullist numlist blockquote | alignleft aligncenter alignright | hr | table | undo redo | fullscreen' :
+      'formatselect | bold italic underline strikethrough code forecolor backcolor removeformat | link image codesample wiki attachment | bullist numlist blockquote | alignleft aligncenter alignright | hr | table | undo redo | fullscreen' :
       'formatselect | bold italic underline strikethrough code removeformat | link image codesample wiki attachment | bullist numlist blockquote | hr | table | undo redo | fullscreen';
 
   var autocompleteSetting = self._autocomplete ? {
@@ -1314,7 +1314,8 @@ RedmineWysiwygEditor.prototype._initMarkdown = function() {
     // Suppress appending two spaces at the end of the line.
     filter: 'br',
     replacement: function(content, node) {
-      return ($(node).closest('table').length > 0) ? ' ' : '\n';
+      return ($(node).closest('table').length > 0) ?
+        (self._htmlTagAllowed ? '<br>' : ' ') : '\n';
     }
   }).addRule('div', {
     filter: function(node) {
